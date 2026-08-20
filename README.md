@@ -1,334 +1,293 @@
-# Escopo do Projeto
+[![Cypress Tests](https://github.com/FabioGVL/StarWarsAPI/actions/workflows/cypress.yml/badge.svg)](https://github.com/FabioGVL/StarWarsAPI/actions/workflows/cypress.yml)
 
-Os testes abaixo visam garantir a funcionalidade correta e a integridade dos dados fornecidos pela API.
-*Todos os testes foram realizados utilizando a ferramenta de automação CYPRESS*
+# Automação de Testes de API - Star Wars API (SWAPI)
+
+## Escopo do Produto
+
+A **SWAPI (Star Wars API)** é uma enciclopédia web pública e gratuita que centraliza dados estruturados sobre o universo de Star Wars. O projeto de automação visa garantir a integridade dos dados, a conformidade de contratos JSON e a estabilidade dos endpoints de consulta que fornecem informações detalhadas sobre personagens, planetas, naves, veículos, espécies e filmes da franquia.
 
 ## Escopo do Teste
 
-### 1. Mapeamento de Features:
-* **Enciclopédia SWAPI:** Consulta de dados sobre personagens, planetas, naves e filmes da franquia Star Wars.
+A estratégia foca em validar a precisão dos dados retornados, o comportamento de paginação e a robustez do sistema diante de parâmetros válidos e limites de entrada inválidos.
 
-### 2. Features Testadas:
-* **Busca de Entidades:** Validação de retorno de dados específicos (como atributos de personagens e planetas).
-* **Consistência de Resposta:** Verificação se os IDs consultados trazem as informações corretas e íntegras.
+* **Mapeamento de Features:** Enciclopédia SWAPI — Consulta de dados sobre personagens, planetas, naves, espécies, filmes e paginação de registros.
+* **Features Testadas:** Busca de entidades por ID específico, consistência de resposta de atributos, validação de contrato JSON e tratamento de erros para rotas ou IDs inexistentes.
+* **Massa de Dados:** Utilização de identificadores (IDs) específicos e conhecidos de personagens, planetas e recursos para verificar a precisão e fidelidade dos dados retornados.
+* **Tipos de Testes:**
+  * **Testes de Funcionalidade:** Garantir que os endpoints da API estão operando e retornando os dados corretos conforme o esperado.
+  * **Testes de Integração:** Garantir que a comunicação entre o script de teste do Cypress e a SWAPI ocorra sem falhas de protocolo ou conexão.
+  * **Testes de Contrato:** Verificar se a estrutura do JSON recebido (tipos de dados e presença de propriedades obrigatórias) está em total conformidade com o padrão da API.
 
-### 3. Massa de Dados para Teste:
-* **IDs Específicos:** Lista de identificadores de personagens e planetas conhecidos para validar a precisão dos dados retornados.
+## Arquitetura e Estrutura
 
-### 4. Tipos de Testes Utilizados:
-* **Testes de Funcionalidade:** Garantir que os endpoints da API estão operando e retornando os dados conforme o esperado.
-* **Testes de Integração:** Garantir que a comunicação entre o script de teste e a SWAPI ocorra sem falhas.
-* **Testes de Contrato:** Verificar se o formato do JSON recebido está em conformidade com o padrão da API pública.
+O projeto foi organizado para garantir a separação entre a lógica de teste e a configuração das requisições, utilizando o ecossistema do Cypress:
 
-## Arquitetura e estrutura 
-O projeto foi estruturado para garantir a separação entre a lógica de teste e a configuração das requisições, facilitando a manutenção e escalabilidade:
-
-* **Estrutura de Pastas:** Organização seguindo as convenções do Cypress, com separação clara entre os specs de teste e os arquivos de suporte.
-
-* **API Testing Approach:** Utilização do comando cy.request() para interagir diretamente com os endpoints da SWAPI, eliminando a necessidade de interface gráfica e acelerando a execução dos testes.
-
-* **Validação de Contrato:** Implementação de checagens para garantir que as propriedades do objeto JSON retornado (como name, height, gender) estejam presentes e no formato correto.
-
-* **Hooks de Teste:** Uso de before ou beforeEach para configurações globais, como a definição da baseUrl no arquivo cypress.config.js.
-
-* **Assertions:** Uso da biblioteca Chai integrada ao Cypress para validar múltiplos pontos de dados em uma única resposta, garantindo a integridade da informação consultada.
-
-## Tecnologias e ambientes utilizados para execução do projeto:
-- Cypress v10.11.0
-- Node JS v20.15.0
-- Google Chrome v126.0.6478.126
-- Windows 11 v23H2
-- Postman
-- GIT
-
-
-## **Testes e Validações**
-
-### Recuperação e validação de informações de personagens
-
-*Dado que acesso o endpoint `/people/{id}/`*
-
-*Quando inserir ao final do endpoint um ID do número 1 ao 83 e realizar a busca*
-
-*Então a API deverá retornar os dados unitários corretos do personagem de ID buscado*
-
-
-
-
-
-### Recuperação e validação de espécies
-
-*Dado que acesso o endpoint `/species/{id}/`*
-
-*Quando inserir ao final do endpoint o ID da espécie associada a um personagem especifico e realizar a busca*
-
-*Então a API deverá retornar os dados unitários corretos da espécie buscada*
-
-
-
-
-
-### Recuperação e validação de veículos
-
-*Dado que acesso o endpoint `/vehicles/{id}/`*
-
-*Quando inserir ao final do endpoint o ID do veículo associado a um personagem específico e realizar a busca*
-
-*Então a API deverá retornar os dados unitários corretos do veículo buscado*
-
-
-
-
-
-
-### Recuperação e validação de espaçonaves
-
-*Dado que acesso o endpoint `/starships/{id}/`*
-
-*Quando inserir ao final do endpoint o ID da espaçonave associado a um personagem específico e realizar a busca*
-
-*Então a API deverá retornar os dados unitários corretos do veículo buscado*
-
-
-
-
-
-### Validação do comportamento da API com ID inexistente - Limite de entrada
-
-*Dado que acesso o endpoint `/people/{id}/`*
-
-*Quando inserir um ID inexistente e realizar a busca*
-
-*Então a API deverá retornar a mensagem de erro `"Not found"`*
-
-
-
-
-
-### Validação do comportamento da API com página inexistente - Limite de entrada
-
-*Dado que acesso o endpoint `/people/?page={id}`*
-
-*Quando inserir um ID inexistente e realizar a busca*
-
-*Então a API deverá retornar a mensagem de erro `"Not found"`*
-
-
-
-
-
-### Validação da paginação e listagem de personagens por página
-
-*Dado que acesso o endpoint `/people/?page={id}`*
-
-*Quando efetuar a busca e a API retornar as informações da página*
-
-*Então as informações de paginação/personagens retornadas deverão estar de acordo com o resultado esperado*
-
-
-
-
-
-## 2. Bugs encontrados
-
-### Personagem inexistente
-
-*Dado que efetuo a busca do endpoint "/people/83"*
-
-*E a API retorna o usuário existente `Tion Medon`*
-
-*E verifico que no campo COUNT constam 82 personagens*
-
-*Quando realizo a contagem geral dos personagens*
-
-*Então verifico que os personagens estão mapeados do ID 1 ao 83, porém, o personagem de ID número 17 não existe*
-
-
-
-
-
-## Passos para reproduzir/encontrar o erro
-
-*1. Acesse o site https://swapi.dev*
-   
-*2. Insira o endpoint `/people/?page=2`*
-   
-*3. Realize a busca*
-   
-*4. Aguarde a API retornar as informações*
-   
-*5. Gire o scroll do mouse para baixo*
-    
-*6. Verifique que os IDs passam do 16 para o 18*
-
-
+* **Padrão de Projeto:** Organização baseada nas convenções do Cypress, priorizando testes de API via `cy.request()` para eliminar dependência de interface gráfica e acelerar a execução.
+* **Tecnologias e Ambiente:** `Cypress v10.11.0` | `Node.js v20.15.0` | `Google Chrome` | `Windows 11` | `Postman` | `Git`
 
 ---
 
-### Dados inconsistentes - Personagem R2-D2
+## Testes e Validações
 
-*Dado que insiro os dados do personagem R2-D2 presentes na documentação para execução do teste de validação das informações dos personagens*
+A suíte de testes foi desenvolvida para validar a recuperação de informações da SWAPI, verificando a integridade dos dados retornados, o comportamento dos endpoints e os limites de entrada da API.
 
-*Quando executo o teste o mesmo falha devido a inconsistência de dados entre a API e a Documentação*
+<details>
+<summary><b>Suíte de Testes</b></summary>
 
-*Então verifico que as informações contidas no campo FILMS estão divergentes*
+### 1. Recuperação e validação de informações de personagens
 
+* **Dado** que acesso o endpoint `/people/{id}/`
+* **Quando** inserir ao final do endpoint um ID do número 1 ao 83 e realizar a busca
+* **Então** a API deverá retornar os dados unitários corretos do personagem de ID buscado
 
+### 2. Recuperação e validação de espécies
 
+* **Dado** que acesso o endpoint `/species/{id}/`
+* **Quando** inserir ao final do endpoint o ID da espécie associada a um personagem específico e realizar a busca
+* **Então** a API deverá retornar os dados unitários corretos da espécie buscada
 
+### 3. Recuperação e validação de veículos
 
-## Passos para reproduzir o erro
+* **Dado** que acesso o endpoint `/vehicles/{id}/`
+* **Quando** inserir ao final do endpoint o ID do veículo associado a um personagem específico e realizar a busca
+* **Então** a API deverá retornar os dados unitários corretos do veículo buscado
 
-### Efetuando o download e descompactando o projeto
-- No GitHub, clique em "code".
-- Clique em "Download Zip" para fazer o download do arquivo deste teste.
-- No seu computador, localize o download efetuado.
-- Descompacte o arquivo.
+### 4. Recuperação e validação de espaçonaves
 
-### Configurando o projeto no VSCode e executando o teste
-- Abra o VSCode.
-- Clique em `Arquivo/File`.
-- Clique em `Abrir pasta/Open folder`.
-- Escolha a pasta do arquivo descompactado (`StarWarsAPI-master`).
-- Após o projeto ser aberto no VSCode, navegue até `Cypress > E2E`.
-- Os testes estarão dentro das pastas `UI`.
-- No terminal do Cypress digite `npx cypress open`. Caso necessário, instale o Cypress através do comando `npm install cypress`.
-- Aguarde o Cypress abrir.
-- Selecione a opção `E2E Testing`.
-- Na próxima página selecione o navegador desejado.
-- Na próxima página selecione o teste que deseja executar e a automação será executada.
-- Também é possível executar o teste através do comando `npx cypress run`. O teste rodará dentro do próprio VSCode e serão gerados vídeos dos resultados dos testes. Os vídeos ficarão armazenados no destino `Cypress > Vídeos`.
-- Clique em testeStarWarsApi.cy.js
-- Aguarde a conclusão dos testes
-- Após a conclusão, o Cypress informará que o teste falhou
-- Acesse https://swapi.dev/api/people/3/ através do seu navegador ou insira a url no Postman
-- Faça o comparativo entre informações contidas no test crash do Cypress e na URL acima
+* **Dado** que acesso o endpoint `/starships/{id}/`
+* **Quando** inserir ao final do endpoint o ID da espaçonave associado a um personagem específico e realizar a busca
+* **Então** a API deverá retornar os dados unitários corretos da espaçonave buscada
 
+### 5. Validação do comportamento da API com ID inexistente - Limite de entrada
 
----
+* **Dado** que acesso o endpoint `/people/{id}/`
+* **Quando** inserir um ID inexistente e realizar a busca
+* **Então** a API deverá retornar a mensagem de erro `"Not found"`
 
+### 6. Validação do comportamento da API com página inexistente - Limite de entrada
 
-### Dados inconsistentes - Personagem Leia Organa
+* **Dado** que acesso o endpoint `/people/?page={id}`
+* **Quando** inserir um ID inexistente e realizar a busca
+* **Então** a API deverá retornar a mensagem de erro `"Not found"`
 
-*Dado que insiro os dados do personagem Leia Organa presentes na documentação para execução do teste de validação das informações dos personagens*
+### 7. Validação da paginação e listagem de personagens por página
 
-*Quando executo o teste o mesmo falha devido a inconsistência de dados entre a API e a Documentação*
+* **Dado** que acesso o endpoint `/people/?page={id}`
+* **Quando** efetuar a busca e a API retornar as informações da página
+* **Então** as informações de paginação e personagens retornadas deverão estar de acordo com o resultado esperado
 
-*Então verifico que as informações contidas no campo CREATED estão divergentes*
-
-
-
-
-
-## Passos para reproduzir o erro
-
-### Efetuando o download e descompactando o projeto
-- No GitHub, clique em "code".
-- Clique em "Download Zip" para fazer o download do arquivo deste teste.
-- No seu computador, localize o download efetuado.
-- Descompacte o arquivo.
-
-### Configurando o projeto no VSCode e executando o teste
-- Abra o VSCode.
-- Clique em `Arquivo/File`.
-- Clique em `Abrir pasta/Open folder`.
-- Escolha a pasta do arquivo descompactado (`StarWarsAPI-master`).
-- Após o projeto ser aberto no VSCode, navegue até `Cypress > E2E`.
-- Os testes estarão dentro das pastas `UI`.
-- No terminal do Cypress digite `npx cypress open`. Caso necessário, instale o Cypress através do comando `npm install cypress`.
-- Aguarde o Cypress abrir.
-- Selecione a opção `E2E Testing`.
-- Na próxima página selecione o navegador desejado.
-- Na próxima página selecione o teste que deseja executar e a automação será executada.
-- Também é possível executar o teste através do comando `npx cypress run`. O teste rodará dentro do próprio VSCode e serão gerados vídeos dos resultados dos testes. Os vídeos ficarão armazenados no destino `Cypress > Vídeos`.
-- Clique em testeStarWarsApi.cy.js
-- Aguarde a conclusão dos testes
-- Após a conclusão, o Cypress informará que o teste falhou
-- Acesse https://swapi.dev/api/people/3/ através do seu navegador ou insira a url no Postman
-- Faça o comparativo entre informações contidas no test crash do Cypress e na URL acima
-
+</details>
 
 ---
 
+## Relatório de testes
 
-### Dados inconsistentes - Personagem Beru Whitesun lars
+Durante a execução da suíte, foram identificadas inconsistências entre os dados retornados pela API e as informações apresentadas na documentação. As divergências foram mapeadas nos testes de validação para facilitar sua análise e reprodução.
 
-*Dado que insiro os dados do personagem Beru Whitesun lars presentes na documentação para execução do teste de validação das informações dos personagens*
+| Endpoint / Módulo | Suíte de Teste | Resultado esperado / Obtido |
+| :--- | :--- | :--- |
+| **`/people/{id}`** | `testeStarWarsApi.cy.js` | O personagem de ID `17` não existe, apesar de a API apresentar personagens mapeados do ID `1` ao `83` e informar um total de `82` personagens. |
+| **`/people/{id}`** | `testeStarWarsApi.cy.js` | Dados do personagem R2-D2 divergem da documentação no campo `films`. |
+| **`/people/{id}`** | `testeStarWarsApi.cy.js` | Dados do personagem Leia Organa divergem da documentação no campo `created`. |
+| **`/people/{id}`** | `testeStarWarsApi.cy.js` | Dados do personagem Beru Whitesun lars divergem da documentação no campo `films`. |
+| **`/people/{id}`** | `testeStarWarsApi.cy.js` | Dados do personagem R5-D4 divergem da documentação no campo `films`. |
 
-*Quando executo o teste o mesmo falha devido a inconsistência de dados entre a API e a Documentação*
+<details>
+<summary><b>Detalhes: Personagem inexistente</b></summary>
 
-*Então verifico que as informações contidas no campo FILMS estão divergentes*
+- **Endpoint:** `/people/83`
+- **Divergência:** A API retorna o personagem existente `Tion Medon`, enquanto a contagem geral informa `82` personagens.
+- **Validação:** Os personagens estão mapeados do ID `1` ao `83`, porém o personagem de ID `17` não existe.
 
+### Passos para reproduzir o erro
 
+1. Acesse o site `https://swapi.dev`.
+2. Insira o endpoint `/people/?page=2`.
+3. Realize a busca.
+4. Aguarde a API retornar as informações.
+5. Gire o scroll do mouse para baixo.
+6. Verifique que os IDs passam do `16` para o `18`.
 
+</details>
 
+<details>
+<summary><b>Detalhes: Dados inconsistentes - Personagem R2-D2</b></summary>
 
-## Passos para reproduzir o erro
+- **Dado** que insiro os dados do personagem R2-D2 presentes na documentação para execução do teste de validação das informações dos personagens.
+- **Quando** executo o teste, o mesmo falha devido à inconsistência de dados entre a API e a documentação.
+- **Então** verifico que as informações contidas no campo `FILMS` estão divergentes.
 
-### Efetuando o download e descompactando o projeto
-- No GitHub, clique em "code".
-- Clique em "Download Zip" para fazer o download do arquivo deste teste.
-- No seu computador, localize o download efetuado.
-- Descompacte o arquivo.
+### Passos para reproduzir o erro
 
-### Configurando o projeto no VSCode e executando o teste
-- Abra o VSCode.
-- Clique em `Arquivo/File`.
-- Clique em `Abrir pasta/Open folder`.
-- Escolha a pasta do arquivo descompactado (`StarWarsAPI-master`).
-- Após o projeto ser aberto no VSCode, navegue até `Cypress > E2E`.
-- Os testes estarão dentro das pastas `UI`.
-- No terminal do Cypress digite `npx cypress open`. Caso necessário, instale o Cypress através do comando `npm install cypress`.
-- Aguarde o Cypress abrir.
-- Selecione a opção `E2E Testing`.
-- Na próxima página selecione o navegador desejado.
-- Na próxima página selecione o teste que deseja executar e a automação será executada.
-- Também é possível executar o teste através do comando `npx cypress run`. O teste rodará dentro do próprio VSCode e serão gerados vídeos dos resultados dos testes. Os vídeos ficarão armazenados no destino `Cypress > Vídeos`.
-- Clique em testeStarWarsApi.cy.js
-- Aguarde a conclusão dos testes
-- Após a conclusão, o Cypress informará que o teste falhou
-- Acesse https://swapi.dev/api/people/3/ através do seu navegador ou insira a url no Postman
-- Faça o comparativo entre informações contidas no test crash do Cypress e na URL acima
+1. No GitHub, clique em **Code**.
+2. Clique em **Download ZIP** para fazer o download do projeto.
+3. Descompacte o arquivo.
+4. Abra a pasta do projeto no VS Code.
+5. Navegue até `Cypress > E2E`.
+6. No terminal do Cypress, execute `npx cypress open`.
+7. Selecione **E2E Testing**.
+8. Selecione o navegador desejado.
+9. Selecione o teste `testeStarWarsApi.cy.js`.
+10. Aguarde a conclusão do teste.
+11. Acesse `https://swapi.dev/api/people/3/` através do navegador ou utilize o Postman.
+12. Compare as informações apresentadas no resultado do teste com os dados retornados pela API.
 
+</details>
+
+<details>
+<summary><b>Detalhes: Dados inconsistentes - Personagem Leia Organa</b></summary>
+
+- **Dado** que insiro os dados do personagem Leia Organa presentes na documentação para execução do teste de validação das informações dos personagens.
+- **Quando** executo o teste, o mesmo falha devido à inconsistência de dados entre a API e a documentação.
+- **Então** verifico que as informações contidas no campo `CREATED` estão divergentes.
+
+### Passos para reproduzir o erro
+
+1. No GitHub, clique em **Code**.
+2. Clique em **Download ZIP** para fazer o download do projeto.
+3. Descompacte o arquivo.
+4. Abra a pasta do projeto no VS Code.
+5. Navegue até `Cypress > E2E`.
+6. No terminal do Cypress, execute `npx cypress open`.
+7. Selecione **E2E Testing**.
+8. Selecione o navegador desejado.
+9. Selecione o teste `testeStarWarsApi.cy.js`.
+10. Aguarde a conclusão do teste.
+11. Acesse `https://swapi.dev/api/people/3/` através do navegador ou utilize o Postman.
+12. Compare as informações apresentadas no resultado do teste com os dados retornados pela API.
+
+</details>
+
+<details>
+<summary><b>Detalhes: Dados inconsistentes - Personagem Beru Whitesun lars</b></summary>
+
+- **Dado** que insiro os dados do personagem Beru Whitesun lars presentes na documentação para execução do teste de validação das informações dos personagens.
+- **Quando** executo o teste, o mesmo falha devido à inconsistência de dados entre a API e a documentação.
+- **Então** verifico que as informações contidas no campo `FILMS` estão divergentes.
+
+### Passos para reproduzir o erro
+
+1. No GitHub, clique em **Code**.
+2. Clique em **Download ZIP** para fazer o download do projeto.
+3. Descompacte o arquivo.
+4. Abra a pasta do projeto no VS Code.
+5. Navegue até `Cypress > E2E`.
+6. No terminal do Cypress, execute `npx cypress open`.
+7. Selecione **E2E Testing**.
+8. Selecione o navegador desejado.
+9. Selecione o teste `testeStarWarsApi.cy.js`.
+10. Aguarde a conclusão do teste.
+11. Acesse `https://swapi.dev/api/people/3/` através do navegador ou utilize o Postman.
+12. Compare as informações apresentadas no resultado do teste com os dados retornados pela API.
+
+</details>
+
+<details>
+<summary><b>Detalhes: Dados inconsistentes - Personagem R5-D4</b></summary>
+
+- **Dado** que insiro os dados do personagem R5-D4 presentes na documentação para execução do teste de validação das informações dos personagens.
+- **Quando** executo o teste, o mesmo falha devido à inconsistência de dados entre a API e a documentação.
+- **Então** verifico que as informações contidas no campo `FILMS` estão divergentes.
+
+### Passos para reproduzir o erro
+
+1. No GitHub, clique em **Code**.
+2. Clique em **Download ZIP** para fazer o download do projeto.
+3. Descompacte o arquivo.
+4. Abra a pasta do projeto no VS Code.
+5. Navegue até `Cypress > E2E`.
+6. No terminal do Cypress, execute `npx cypress open`.
+7. Selecione **E2E Testing**.
+8. Selecione o navegador desejado.
+9. Selecione o teste `testeStarWarsApi.cy.js`.
+10. Aguarde a conclusão do teste.
+11. Acesse `https://swapi.dev/api/people/3/` através do navegador ou utilize o Postman.
+12. Compare as informações apresentadas no resultado do teste com os dados retornados pela API.
+
+</details>
+
+## Pré-requisitos
+
+Certifique-se de possuir as seguintes ferramentas instaladas em seu ambiente:
+
+- [Node.js](https://nodejs.org/) — versão 20.15.0 ou superior recomendada
+- [Git](https://git-scm.com/)
+- Editor de código de sua preferência, como o [VS Code](https://code.visualstudio.com/)
 
 ---
 
+# Passos para Configurar e Reproduzir o Projeto
 
-### Dados inconsistentes - Personagem R5-D4
+Siga o guia abaixo para clonar, configurar o ambiente e executar a suíte de testes automatizados em sua máquina local.
 
-*Dado que insiro os dados do personagem R5-D4 presentes na documentação para execução do teste de validação das informações dos personagens*
+---
 
-*Quando executo o teste o mesmo falha devido a inconsistência de dados entre a API e a Documentação*
+## Obtendo o Código do Projeto
 
-*Então verifico que as informações contidas no campo FILMS estão divergentes*
+Você pode obter os arquivos do projeto de duas formas.
 
+### Opção A: Clonando via Git (Recomendado)
 
+Abra o terminal e execute o comando abaixo para clonar o repositório:
 
+```bash
+git clone https://github.com/FabioGVL/StarWarsAPI.git
+```
 
+Em seguida, navegue para dentro da pasta do projeto:
 
-## Passos para reproduzir o erro
+```bash
+cd StarWarsAPI
+```
 
-### Efetuando o download e descompactando o projeto
-- No GitHub, clique em "code".
-- Clique em "Download Zip" para fazer o download do arquivo deste teste.
-- No seu computador, localize o download efetuado.
-- Descompacte o arquivo.
+### Opção B: Baixando via ZIP
 
-### Configurando o projeto no VSCode e executando o teste
-- Abra o VSCode.
-- Clique em `Arquivo/File`.
-- Clique em `Abrir pasta/Open folder`.
-- Escolha a pasta do arquivo descompactado (`StarWarsAPI-master`).
-- Após o projeto ser aberto no VSCode, navegue até `Cypress > E2E`.
-- Os testes estarão dentro das pastas `UI`.
-- No terminal do Cypress digite `npx cypress open`. Caso necessário, instale o Cypress através do comando `npm install cypress`.
-- Aguarde o Cypress abrir.
-- Selecione a opção `E2E Testing`.
-- Na próxima página selecione o navegador desejado.
-- Na próxima página selecione o teste que deseja executar e a automação será executada.
-- Também é possível executar o teste através do comando `npx cypress run`. O teste rodará dentro do próprio VSCode e serão gerados vídeos dos resultados dos testes. Os vídeos ficarão armazenados no destino `Cypress > Vídeos`.
-- Clique em testeStarWarsApi.cy.js
-- Aguarde a conclusão dos testes
-- Após a conclusão, o Cypress informará que o teste falhou
-- Acesse https://swapi.dev/api/people/3/ através do seu navegador ou insira a url no Postman
-- Faça o comparativo entre informações contidas no test crash do Cypress e na URL acima
+1. Acesse a página do repositório no GitHub.
+2. Clique no botão verde **Code**.
+3. Selecione **Download ZIP**.
+4. Extraia o conteúdo do arquivo compactado em uma pasta no seu computador.
+5. Abra o VS Code, vá em **Arquivo > Abrir Pasta** e selecione a pasta descompactada.
+
+---
+
+## Instalando as Dependências
+
+Com o terminal aberto na raiz do projeto, execute o comando abaixo para instalar as dependências do projeto:
+
+```bash
+npm install
+```
+
+---
+
+## Executando os Testes
+
+O projeto suporta diferentes modos de execução do Cypress.
+
+### Modo Interativo (Cypress App)
+
+Abre a interface gráfica do Cypress para acompanhar a execução visualmente:
+
+```bash
+npx cypress open
+```
+
+Na interface, selecione **E2E Testing**, escolha o navegador desejado e clique no arquivo de teste correspondente para iniciar.
+
+### Modo Headless (Linha de Comando)
+
+Executa os testes diretamente pelo terminal de forma rápida:
+
+```bash
+npx cypress run
+```
+
+---
+
+## Resumo dos Comandos
+
+| **Objetivo** | **Comando** |
+| -------------------------------------- | ------------------ |
+| **Instalar dependências / Cypress** | `npm install` |
+| **Abrir interface gráfica do Cypress** | `npx cypress open` |
+| **Executar testes em modo Headless** | `npx cypress run` |
