@@ -1,4 +1,4 @@
-[![Cypress Tests](https://github.com/FabioGVL/StarWarsAPI/actions/workflows/cypress.yml/badge.svg)](https://github.com/FabioGVL/StarWarsAPI/actions/workflows/cypress.yml)
+[![Cypress Tests](https://github.com/FabioGVL/StarWarsAPI/actions/workflows/StarWarsAPIAutomation.yml/badge.svg)](https://github.com/FabioGVL/StarWarsAPI/actions/workflows/StarWarsAPIAutomation.yml)
 
 # Automação de Testes de API - Star Wars API (SWAPI)
 
