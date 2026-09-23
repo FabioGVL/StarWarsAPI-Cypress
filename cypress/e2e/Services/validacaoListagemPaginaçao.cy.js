@@ -54,8 +54,6 @@ it('Validação de paginação e listagem de personagens por página - 2', () =>
         expect(response.body.results[4].url).to.eq("https://swapi.dev/api/people/15/")
         expect(response.body.results[5].name).to.eq("Jabba Desilijic Tiure")
         expect(response.body.results[5].url).to.eq("https://swapi.dev/api/people/16/")
-        expect(response.body.results[5].name).to.eq("Jabba Desilijic Tiure")
-        expect(response.body.results[5].url).to.eq("https://swapi.dev/api/people/16/")
         expect(response.body.results[6].name).to.eq("Wedge Antilles")
         expect(response.body.results[6].url).to.eq("https://swapi.dev/api/people/18/")
         expect(response.body.results[7].name).to.eq("Jek Tono Porkins")
