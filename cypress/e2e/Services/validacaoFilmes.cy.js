@@ -464,7 +464,7 @@ it('Validação de filmes da personagem Beru Whitesun lars', () => {
         url: "films/3/"
             }).then((response)=>{
             expect(response.status).to.equal(200)
-            expect(response.body.characters).to.deep.eq([])
+            expect(response.body.characters).to.include("https://swapi.dev/api/people/7/")
     
 
     cy.request({
@@ -512,7 +512,7 @@ it('Validação de filmes do personagem R5-D4', () => {
                
         }).then((response)=>{
         expect(response.status).to.equal(200)
-        expect(response.body.characters).to.deep.eq([])
+        expect(response.body.characters).to.include("https://swapi.dev/api/people/8/")
     })
 
 });
