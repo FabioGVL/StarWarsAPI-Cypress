@@ -5,7 +5,7 @@ it('Validação de limite de entrada - ID inexistente 0', () => {
         url: "people/0/"
         }).then((response)=>{
         expect(response.status).to.equal(404)
-        expect(response.body.detail).to.eq("Not found")
+        expect(response.body.detail).to.eq("Not found.")
 
     })
 
@@ -19,7 +19,7 @@ it('Validação de limite de entrada - ID inexistente 500', () => {
         url: "people/500/"
         }).then((response)=>{
         expect(response.status).to.equal(404)
-        expect(response.body.detail).to.eq("Not found")
+        expect(response.body.detail).to.eq("Not found.")
 
     })
 
