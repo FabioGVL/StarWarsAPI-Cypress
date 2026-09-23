@@ -233,12 +233,13 @@ it('Validação de filmes do personagem R2-D2', () => {
            expect(response.body.url).to.eq("https://swapi.dev/api/films/4/") 
 
     cy.request({
+            failOnStatusCode: false,
             method:"GET", 
             url: "films/9/"})
            
            }).then((response)=>{
            expect(response.status).to.equal(404)
-           expect(response.body.detail).to.eq("Not found") 
+           expect(response.body.detail).to.eq("Not found.") 
 
     cy.request({
             method:"GET", 
