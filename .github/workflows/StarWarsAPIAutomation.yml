@@ -1,10 +1,10 @@
 name: StarWarsAPI Automation
+
 on:
   push:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
-
   workflow_dispatch:
 
 jobs:
@@ -12,9 +12,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      # Instala as dependências do Cypress
-      # Executa os testes com Cypress
+      - name: Prepare report directory
+        run: mkdir -p cypress/reports
+
       - name: Cypress run
-        uses: cypress-io/github-action@v5
+        continue-on-error: true
+        uses: cypress-io/github-action@v7
+        with:
+          command: npx cypress run --reporter junit --reporter-options "mochaFile=cypress/reports/junit-[hash].xml,toConsole=true"
+
+      - name: Upload Cypress report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-report
+          path: |
+            cypress/reports
+            cypress/screenshots
+            cypress/videos
+          if-no-files-found: ignore
